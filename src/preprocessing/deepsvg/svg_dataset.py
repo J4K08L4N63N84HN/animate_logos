@@ -167,6 +167,10 @@ class SVGDataset(torch.utils.data.Dataset):
 
         t_sep, fillings = svg.to_tensor(concat_groups=False, PAD_VAL=self.PAD_VAL), svg.to_fillings()
 
+        # SFS, 30.03.2021. Note: DeepSVG can only handle 8 paths in a SVG.
+        t_sep = t_sep[0:8]
+        fillings = fillings[0:8]
+
         # SFS, 30.03.2021. Note: DeepSVG can only handle 30 sequences per path.
         for i in range(len(t_sep)):
             t_sep[i] = t_sep[i][0:30]
