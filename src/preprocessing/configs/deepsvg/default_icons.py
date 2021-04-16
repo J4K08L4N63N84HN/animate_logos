@@ -1,12 +1,12 @@
-from deepsvg.config import _Config
-from deepsvg.model.model import SVGTransformer
-from deepsvg.model.loss import SVGLoss
-from deepsvg.model.config import *
-from deepsvg.svglib.svg import SVG
-from deepsvg.difflib.tensor import SVGTensor
-from deepsvg.svglib.utils import make_grid
-from deepsvg.svglib.geom import Bbox
-from deepsvg.utils.utils import batchify, linear
+from src.preprocessing.deepsvg.config import _Config
+from src.preprocessing.deepsvg.model.model import SVGTransformer
+from src.preprocessing.deepsvg.model.loss import SVGLoss
+from src.preprocessing.deepsvg.model.config import *
+from src.preprocessing.deepsvg.svglib.svg import SVG
+from src.preprocessing.deepsvg.difflib.tensor import SVGTensor
+from src.preprocessing.deepsvg.svglib.utils import make_grid
+from src.preprocessing.deepsvg.svglib.geom import Bbox
+from src.preprocessing.deepsvg.utils.utils import batchify, linear
 
 import torchvision.transforms.functional as TF
 import torch.optim.lr_scheduler as lr_scheduler
