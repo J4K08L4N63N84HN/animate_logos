@@ -564,6 +564,17 @@
                type=submit
                value="Animate this Logo">
     </form>
+        {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <p class="text-gray-600 mb-8">
+            {{message}}
+        </p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 </section>
 
 <!--Footer-->
