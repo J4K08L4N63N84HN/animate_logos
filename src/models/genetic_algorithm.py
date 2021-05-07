@@ -1,17 +1,3 @@
-import torch, random
-import numpy as np
-import pandas as pd
-import copy
-from os import listdir
-from os.path import isfile, join
-from datetime import datetime
-from collections import Counter
-
-from src.utils.logger import *
-
-from src.models import config
-from src.models.ordinal_classifier_fnn import *
-from src.models.animation_prediction import AnimationPredictor
 from src.models.train_animation_predictor import *
 
 

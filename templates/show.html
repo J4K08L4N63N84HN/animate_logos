@@ -155,15 +155,16 @@
 
 <!-- JavaScript for site functionality -->
 <script>
-    var scrollpos = window.scrollY;
-    var header = document.getElementById("header");
-    var navcontent = document.getElementById("nav-content");
-    var navaction = document.getElementById("navAction");
-    var brandname = document.getElementById("brandname");
-    var toToggle = document.querySelectorAll(".toggleColour");
+    let scrollpos = window.scrollY;
+    let header = document.getElementById("header");
+    let navcontent = document.getElementById("nav-content");
+    let navaction = document.getElementById("navAction");
+    let brandname = document.getElementById("brandname");
+    let toToggle = document.querySelectorAll(".toggleColour");
 
     document.addEventListener("scroll", function () {
 
+        let i;
         scrollpos = window.scrollY;
 
         if (scrollpos > 10) {
@@ -173,7 +174,7 @@
             navaction.classList.remove("text-gray-800");
             navaction.classList.add("text-white");
             //Use to switch toggleColour colours
-            for (var i = 0; i < toToggle.length; i++) {
+            for (i = 0; i < toToggle.length; i++) {
                 toToggle[i].classList.add("text-gray-800");
                 toToggle[i].classList.remove("text-white");
             }
@@ -187,7 +188,7 @@
             navaction.classList.remove("text-white");
             navaction.classList.add("text-gray-800");
 
-            for (var i = 0; i < toToggle.length; i++) {
+            for (i = 0; i < toToggle.length; i++) {
                 toToggle[i].classList.add("text-white");
                 toToggle[i].classList.remove("text-gray-800");
             }
@@ -221,7 +222,7 @@
     document.onclick = check;
 
     function check(e) {
-        var target = (e && e.target) || (event && event.srcElement);
+        let target = (e && e.target) || (event && event.srcElement);
 
         if (!checkParent(target, navMenuDiv)) {
             if (checkParent(target, navMenu)) {

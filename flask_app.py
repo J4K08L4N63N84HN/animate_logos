@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 
 from src.pipeline import Logo
 
-UPLOAD_FOLDER = "data/uploads"
+UPLOAD_FOLDER = "data/raw/uploads"
 ALLOWED_EXTENSIONS = {"svg"}
 
 app = Flask(__name__)
@@ -67,19 +67,19 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/data/uploads/<filename>")
+@app.route("/data/raw/uploads/<filename>")
 def uploaded_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"],
                                filename)
 
 
-@app.route("/data/uploads/<animation_filename_genetic>")
+@app.route("/data/raw/uploads/<animation_filename_genetic>")
 def animated_svg_genetic(animation_filename_genetic):
     return send_from_directory(app.config["UPLOAD_FOLDER"],
                                animation_filename_genetic)
 
 
-@app.route("/data/uploads/<animation_filename_entmoot>")
+@app.route("/data/raw/uploads/<animation_filename_entmoot>")
 def animated_svg_entmoot(animation_filename_entmoot):
     return send_from_directory(app.config["UPLOAD_FOLDER"],
                                animation_filename_entmoot)

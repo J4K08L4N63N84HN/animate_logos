@@ -14,9 +14,4 @@
 .. automodule:: src.data.svg_to_png
     :members:
 """
-from .expand_viewbox import expand_viewbox_in_folder, expand_viewbox
-from .get_svg_meta_data import get_svg_meta_data
-from .insert_ids import insert_ids_in_folder
-from .rename_logos import rename_logos
-from .sm_dataloader import DatasetSM
-from .svg_to_png import convert_svgs_in_folder
+# from .get_svg_meta_data import get_svg_meta_data

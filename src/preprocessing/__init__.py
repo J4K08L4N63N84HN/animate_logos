@@ -12,8 +12,8 @@
 .. automodule:: src.preprocessing.sort_paths
     :members:
 """
-from .augment_data import augment_data
-from .create_svg_embedding import apply_embedding_model_to_svgs, encode_svg, decode_z
-from .decompose_logo import decompose_logos_in_folder
-from .get_parent_node import get_clip_paths, get_background_paths
-from .sort_paths import get_path_relevance
+# from .augment_data import augment_data
+# from .create_svg_embedding import apply_embedding_model_to_svgs, encode_svg, decode_z
+# from .decompose_logo import decompose_logos_in_folder
+# from .get_parent_node import get_clip_paths, get_background_paths
+# from .sort_paths import get_path_relevance

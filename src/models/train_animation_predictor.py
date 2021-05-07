@@ -1,15 +1,17 @@
-import os, sys, torch, pickle
+import os
+import sys
+from argparse import ArgumentParser
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
-import numpy as np
+import torch
+import pickle
 import pandas as pd
-from collections import Counter
-from argparse import ArgumentParser
-
+import numpy as np
 from src.models import config
-from src.utils.logger import *
 from src.models.genetic_algorithm import *
 from src.features.get_svg_size_pos import get_relative_pos_to_bounding_box_of_animated_paths
+from src.models.logger import info
 
 
 def retrieve_m1_predictions(input_data):
@@ -22,7 +24,7 @@ def retrieve_m1_predictions(input_data):
     return input_data
 
 
-def retrieve_animation_midpoints(input_data, data_dir='data/initial_svgs', drop=True):
+def retrieve_animation_midpoints(input_data, data_dir='data/raw/logos_dataset', drop=True):
     # Integrate midpoint of animation as feature
     animated_input_data = input_data[input_data['animated'] == 1]
     gb = animated_input_data.groupby('filename')['animation_id'].apply(list)
@@ -157,7 +159,7 @@ def train_animation_predictor(train_paths, test_paths, hidden_sizes=config.a_hid
     return top_agents[0]
 
 
-def main(train_path='data/model_1/model_1_train.csv', test_path='data/model_1/model_1_test.csv', drop=True,
+def main(train_path='data/path_animation_decision/model_1_train.csv', test_path='data/path_animation_decision/model_1_test.csv', drop=True,
          num_agents=100, top_parent_limit=20, generations=50, timestamp='', model1=True):
     info(f'Train data source: {train_path}')
     info(f'Test data source: {test_path}')

@@ -16,3 +16,6 @@ werkzeug~=1.0.1
 entmoot~=0.2.2
 requests>=2.20.0
 flask~=1.0.2
+sparqlwrapper~=1.8.5
+tqdm~=4.60.0
+moviepy~=1.0.3

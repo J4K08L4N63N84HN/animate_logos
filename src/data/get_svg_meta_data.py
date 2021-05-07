@@ -1,12 +1,17 @@
-import os
+""" These functions retrieve meta data of SVG files.
+"""
+
 import glob
+import os
 from concurrent import futures
-from tqdm import tqdm
+
 import pandas as pd
+from tqdm import tqdm
+
 from src.preprocessing.deepsvg.svglib.svg import SVG
 
 
-def get_svg_meta_data(data_folder="data/svgs"):
+def get_svg_meta_data(data_folder="../../data/raw/logos_dataset"):
     """ Get meta data of all SVGs in a given folder.
 
     Note: There are some elements (like text tags or matrices or clip paths) that can't be processed here. The meta
@@ -36,13 +41,13 @@ def get_svg_meta_data(data_folder="data/svgs"):
 def _get_svg_meta_data(svg_file, meta_data):
     filename = os.path.splitext(os.path.basename(svg_file))[0]
 
-    #svg = SVG.load_svg(svg_file)  # THIS ONE
+    # svg = SVG.load_svg(svg_file)  # THIS ONE
     # svg.fill_(False)
     # svg.normalize()
     # svg.zoom(0.9)
     # svg.svg_path_groups = sorted(svg.svg_path_groups, key=lambda x: x.start_pos.tolist()[::-1])
 
-    #svg.canonicalize(normalize=True)  # THIS ONE
+    # svg.canonicalize(normalize=True)  # THIS ONE
 
     svg = _canonicalize(svg_file, normalize=True)
 
@@ -68,7 +73,7 @@ def _canonicalize(svg_file, normalize=False):
     if normalize:
         svg.normalize()
 
-    #svg.split_paths()
+    # svg.split_paths()
     svg.filter_consecutives()
     svg.filter_empty()
     svg._apply_to_paths("reorder")

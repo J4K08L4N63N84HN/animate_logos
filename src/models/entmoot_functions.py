@@ -262,7 +262,7 @@ def entmoot_predict(opt, func, path_vector, n_calls):
 
 
 if __name__ == "__main__":
-    initial_data = pd.read_csv('../../data/entmoot_optimization/bo_initial_data_09042021.csv')
+    initial_data = pd.read_csv('../../data/processed/entmoot_optimization/bo_initial_data_09042021.csv')
 
     X_train = initial_data.iloc[:100, :-4]
     X_train.replace(to_replace=-1, value=0, inplace=True

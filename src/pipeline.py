@@ -1,14 +1,27 @@
-from xml.dom import minidom
+"""A one line summary of the module or program, terminated by a period.
 
+Leave one blank line.  The rest of this docstring should contain an
+overall description of the module or program.  Optionally, it may also
+contain a brief description of exported classes and functions and/or usage
+examples.
+
+  Typical usage example:
+
+  foo = ClassFoo()
+  bar = foo.FunctionBar()
+"""
+
+from xml.dom import minidom
+import os
 import pickle5
 from PIL import ImageColor
 from svgpathtools import svg2paths
-from src.animations import *
-from src.features import get_style_attributes_path
+from src.features.get_style_attributes import get_style_attributes_path
 from src.features.create_path_vector import reduce_dim
 from src.features.get_svg_size_pos import get_svg_size, get_svg_bbox, get_relative_path_pos, get_relative_path_size, \
     get_begin_values_by_starting_pos
 from src.models import config
+from src.models.animation_prediction import AnimationPredictor
 from src.models.entmoot_functions import *
 from src.models.train_animation_predictor import *
 from src.preprocessing.configs.deepsvg.hierarchical_ordered import Config
@@ -16,6 +29,9 @@ from src.preprocessing.deepsvg import utils
 from src.preprocessing.deepsvg.difflib.tensor import SVGTensor
 from src.preprocessing.deepsvg.svglib.svg import SVG
 from src.preprocessing.deepsvg.utils.utils import batchify
+from src.preprocessing.insert_animation import insert_translate_statement, insert_scale_statement, \
+    insert_rotate_statement, insert_skew_statement, insert_fill_statement, insert_opacity_statement
+from src.preprocessing.transform_animation_predictor_output import transform_animation_predictor_output
 
 
 class Logo:

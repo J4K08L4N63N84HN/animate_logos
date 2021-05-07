@@ -3,7 +3,6 @@ from src.features.get_style_attributes_folder import get_style_attributes_folder
 from src.features.get_svg_size_pos import *
 from src.preprocessing.create_svg_embedding import *
 from src.data.get_svg_meta_data import *
-import matplotlib.pyplot as plt
 from PIL import ImageColor
 from itertools import chain
 import numpy as np
@@ -174,8 +173,8 @@ def _get_svg_avg(df, columns, diff=True):
 
 
 if __name__ == '__main__':
-    path_embedding_pkl = "../../data/embeddings/path_embedding.pkl"
-    train_df, fitted_pca = create_path_vectors("../../data/initial_svgs",
+    path_embedding_pkl = "../../data/processed/embeddings/path_embedding.pkl"
+    train_df, fitted_pca = create_path_vectors("../../data/raw/logos_dataset",
                                                emb_file_path=path_embedding_pkl,
                                                new_dim=10,  # explained variance (0.99) or nr. of components (10)
                                                nr_commands=False,  # "list index out of range"
@@ -193,13 +192,13 @@ if __name__ == '__main__':
     pickle.dump(fitted_pca, open("../../models/pca_path_embedding.sav", 'wb'))
     print(f"Fitted PCA saved.")
 
-    train_df.to_csv('../../data/model_1/model_1_train.csv', index=False)
+    train_df.to_csv('../../data/path_animation_decision/model_1_train.csv', index=False)
     print('Train data created and saved.')
 
-    test_df = create_path_vectors("../../data/initial_svgs",
+    test_df = create_path_vectors("../../data/raw/logos_dataset",
                                   emb_file_path=path_embedding_pkl,
                                   fitted_pca=fitted_pca,
                                   nr_commands=False,  # "list index out of range"
                                   train=False)
-    test_df.to_csv('../../data/model_1/model_1_test.csv', index=False)
+    test_df.to_csv('../../data/path_animation_decision/model_1_test.csv', index=False)
     print('Test data created and saved.')

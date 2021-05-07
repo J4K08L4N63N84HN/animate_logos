@@ -19,7 +19,7 @@ from src.features.get_svg_size_pos import get_svg_bbox, get_relative_path_pos, g
 
 def augment_data(folder='data/svgs',
                  nb_augmentations=2,
-                 df_dir='data/model_1/model_1_train.csv',
+                 df_dir='data/path_animation_decision/model_1_train.csv',
                  embedding_model='models/deepSVG_hierarchical_ordered.pth.tar',
                  pca_model='models/pca_path_embedding.sav',
                  seed=None,
@@ -101,7 +101,7 @@ def augment_data(folder='data/svgs',
 
     if save:
         date_time = datetime.now().strftime('%H%M')
-        df_full.to_csv(f'data/model_1/model_1_train_nb_augmentations_{nb_augmentations}_{date_time}.csv', index=False)
+        df_full.to_csv(f'data/path_animation_decision/model_1_train_nb_augmentations_{nb_augmentations}_{date_time}.csv', index=False)
 
     return df_full
 

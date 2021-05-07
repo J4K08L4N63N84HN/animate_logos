@@ -1,1 +1,1 @@
-from .pipeline import Logo
+# from .pipeline import Logo

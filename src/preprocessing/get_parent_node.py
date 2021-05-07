@@ -1,4 +1,4 @@
-from src.utils import logger
+from src.models import logger
 from src.features.get_svg_size_pos import *
 
 
