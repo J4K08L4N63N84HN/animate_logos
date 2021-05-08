@@ -1,8 +1,8 @@
 SVG Logo Animation using Machine Learning
 -----------------------------------------
 
-.. image:: https://img.shields.io/github/repo-size/J4K08L4N63N84HN/animate_logos   :alt: GitHub repo size
-.. image:: https://img.shields.io/github/license/J4K08L4N63N84HN/animate_logos   :alt: GitHub
+.. image:: https://img.shields.io/github/repo-size/J4K08L4N63N84HN/animate_logos    :alt: GitHub repo size
+.. image:: https://img.shields.io/github/license/J4K08L4N63N84HN/animate_logos  :alt: GitHub
 .. image:: https://img.shields.io/github/stars/J4K08L4N63N84HN/animate_logos?style=social   :alt: GitHub Repo stars
 
 
@@ -67,14 +67,19 @@ The data is collected through a `labeling website <https://animate-logos.web.app
 Credits
 #######
 
-If you worked on the project as a team or an organization, list your collaborators/team members. You should also include links to their GitHub profiles.
-Also, if you followed tutorials to build that particular project, include links to those here as well. This is just a way to show your appreciation and also to help others get a first hand copy of the project.
+This project is a Master Team Project at the University of Mannheim. The project team consists of:
+
+* `Rebecca Armbruster <https://github.com/rebeccaarmbruster/>`__
+* `Jonathan Baumert <https://github.com/JonathanBt/>`__
+* `Tim Bleil <https://github.com/thb97/>`__
+* `Jakob Langenbahn <https://github.com/J4K08L4N63N84HN/>`__
+* `Jan Schwedhelm <https://github.com/janschwedhelm/>`__
+* `Sarah Sester <https://github.com/sarahsester/>`__
 
 License
 #######
 
-This is the last section of most README. It lets other developers know what they can and cannot do with your project. If you need help choosing a license, use https://choosealicense.com/
-🏆 The sections listed above are the minimum for a good README. But you might also want to consider adding the following sections.
+This repository is licenced under the GPL-3.0 License. If you have any enquiries concerning the use of our code, do not hesitate to contact us.
 
 
 
