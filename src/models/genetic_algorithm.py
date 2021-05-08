@@ -2,11 +2,27 @@ from src.models.train_animation_predictor import *
 
 
 def init_weights(agent):
+    """ Initialize weights in an AnimationPredictor agent.
+
+    Args:
+        agent (src.models.animation_prediction.AnimationPredictor): Agent of which weights should be initialized.
+
+    """
+    # Todo: Check if weights are actually initialized on outer object
     for layer in agent.children():
         torch.nn.init.xavier_uniform_(layer.weight)
 
 
 def create_random_agents(num_agents):
+    """ Create a list of random AnimationPredictor agents.
+
+    Args:
+        num_agents (int): Number of agents to be created.
+
+    Returns:
+        list (src.models.animation_prediction.AnimationPredictor): List of random agents.
+
+    """
     agents = []
 
     for _ in range(num_agents):
@@ -14,6 +30,7 @@ def create_random_agents(num_agents):
         agent = AnimationPredictor(config.a_input_size, config.a_hidden_sizes, config.a_out_sizes)
 
         for param in agent.parameters():
+            # Todo: Check if grad requirement is actually set False.
             param.requires_grad = False
 
         init_weights(agent)
@@ -22,7 +39,18 @@ def create_random_agents(num_agents):
     return agents
 
 
-def create_animation_vector(animation_prediction, value=-1):
+def create_animation_vector(animation_prediction, value=config.replacement_value):
+    """ Create actual animation vector from AnimationPredictor model output. Vector elements of the model
+    output that belong to other animation types than the one in use will be set to default value.
+
+    Args:
+        animation_prediction (np.array): AnimationPredictor model output.
+        value (int): Value to replace predicted vector elements of other animation types with.
+
+    Returns:
+        np.array: Updated animation vector.
+
+    """
     # Todo: Maybe put this function to another directory?
     if animation_prediction[0] == 1:
         for i in [8, 9, 10, 11]:
@@ -51,6 +79,16 @@ def create_animation_vector(animation_prediction, value=-1):
 
 
 def prepare_sm_input(path_vectors, animation_predictions, convert=True):
+    """ Prepare input for surrogate model from path vectors and animation predictions.
+
+    Args:
+        path_vectors (np.ndarray): Path vectors of input data.
+        animation_predictions (np.ndarray): Animation predictions for each path in path vectors.
+
+    Returns:
+        torch.Tensor: Concatenated surrogate model input.
+
+    """
     if convert:
         return torch.tensor([list(torch.cat((create_animation_vector(animation_predictions[i]),
                                              path_vectors[i]), 0).detach().numpy())
@@ -61,12 +99,32 @@ def prepare_sm_input(path_vectors, animation_predictions, convert=True):
 
 
 def return_average_reward(path_vectors, animation_predictions):
+    """ Obtain average reward of an agent.
+
+    Args:
+        path_vectors (np.ndarray): Path vectors of input data.
+        animation_predictions (np.ndarray): Animation predictions for each path in path vectors.
+
+    Returns:
+        float: Average reward.
+
+    """
     rewards = predict(prepare_sm_input(path_vectors, animation_predictions))
-    # info(f'Reward distribution: {sorted(Counter(rewards.flatten().tolist()).items())}')
     return np.mean(rewards)
 
 
 def compute_agent_rewards(agents, path_vectors, verbose=5):
+    """ Iterate over list of agents and compute average reward for each.
+
+    Args:
+        agents (list): List of agents.
+        path_vectors (np.ndarray): Path vectors of input data.
+        verbose (int): Number of logging
+
+    Returns:
+        np.array, np.ndarray: Average reward for each agent, animation predictions of each agent.
+
+    """
     steps = len(agents) // verbose
     agent_rewards, agent_predictions = list(), list()
     num_agents = len(agents)
@@ -81,9 +139,17 @@ def compute_agent_rewards(agents, path_vectors, verbose=5):
 
 
 def crossover(agents, num_agents):
+    """ Generate children from a given list of agents.
+
+    Args:
+        agents (list): List of top agents to generate children from.
+        num_agents (int): Total number of agents to be generated from parent agents.
+
+    """
     children = list()
 
     for _ in range((num_agents - len(agents)) // 2):
+        # Todo: Make sure to select each agent at least once
         parent1 = np.random.choice(agents)
         parent2 = np.random.choice(agents)
         child1 = AnimationPredictor(config.a_input_size, config.a_hidden_sizes, config.a_out_sizes)
@@ -129,20 +195,27 @@ def crossover(agents, num_agents):
     return agents
 
 
-def mutate(agent, mutation_power=0.02):
+def mutate(agent, mutation_power=config.mutation_power):
+    """ Update agent weights by adding random mutation value.
+
+    Args:
+        agent (src.models.animation_prediction.AnimationPredictor): Agent for which the weights are to be adjusted.
+
+    Returns:
+        src.models.animation_prediction.AnimationPredictor: Mutated child agent.
+
+    """
     child_agent = copy.deepcopy(agent)
 
     state_dict = child_agent.state_dict()
 
     for i, (name, param) in enumerate(state_dict.items()):
-        # Transform the parameter as required.
         if len(param.shape) == 2:
             transformed_param = param + torch.tensor(mutation_power * np.random.randn(param.shape[0], param.shape[1]))
 
         if len(param.shape) == 1:
             transformed_param = param + torch.tensor(mutation_power * np.random.randn(param.shape[0]))
 
-        # Update the parameter.
         state_dict[name].copy_(transformed_param)
 
     return child_agent
