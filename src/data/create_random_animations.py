@@ -12,8 +12,8 @@ from src.preprocessing.insert_animation import create_animated_svg
 from src.preprocessing.sort_and_extract_paths import get_path_relevance
 
 
-def create_random_animations(folder_svg_dataset, animation_path_label="../../data/processed/path_animation_decision"
-                                                          "/path_animation_decision_label.pkl",
+def create_random_animations(folder_svg_dataset, animation_path_label="../../data/processed/model_path_animation_decision"
+                                                          "/path_animation_decision.pkl",
                              path_relevance_order="../../data/interim/logos_meta_data/path_relevance_order.pkl",
                              nb_animations=25,
                              split_df=True,

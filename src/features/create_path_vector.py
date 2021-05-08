@@ -68,12 +68,16 @@ def create_path_vectors(svg_folder, emb_file_path=None, fitted_pca=None, new_dim
             df = _get_svg_avg(df, avg_cols_svg, avg_diff)
 
     if size:
-        df['rel_width'] = df.apply(lambda row: get_relative_path_size(f"{svg_folder}/{row['filename']}.svg", row['animation_id'])[0], axis=1)
-        df['rel_height'] = df.apply(lambda row: get_relative_path_size(f"{svg_folder}/{row['filename']}.svg", row['animation_id'])[1], axis=1)
+        df['rel_width'] = df.apply(
+            lambda row: get_relative_path_size(f"{svg_folder}/{row['filename']}.svg", row['animation_id'])[0], axis=1)
+        df['rel_height'] = df.apply(
+            lambda row: get_relative_path_size(f"{svg_folder}/{row['filename']}.svg", row['animation_id'])[1], axis=1)
 
     if position:
-        df['rel_x_position'] = df.apply(lambda row: get_relative_path_pos(f"{svg_folder}/{row['filename']}.svg", row['animation_id'])[0], axis=1)
-        df['rel_y_position'] = df.apply(lambda row: get_relative_path_pos(f"{svg_folder}/{row['filename']}.svg", row['animation_id'])[1], axis=1)
+        df['rel_x_position'] = df.apply(
+            lambda row: get_relative_path_pos(f"{svg_folder}/{row['filename']}.svg", row['animation_id'])[0], axis=1)
+        df['rel_y_position'] = df.apply(
+            lambda row: get_relative_path_pos(f"{svg_folder}/{row['filename']}.svg", row['animation_id'])[1], axis=1)
 
     if nr_paths_svg:
         meta_df = get_svg_meta_data(data_folder=svg_folder)
@@ -83,7 +87,9 @@ def create_path_vectors(svg_folder, emb_file_path=None, fitted_pca=None, new_dim
 
     if nr_commands:
         meta_df = get_svg_meta_data(data_folder=svg_folder)
-        df['nr_commands'] = df.apply(lambda row: meta_df[meta_df['id'] == row['filename']].reset_index()['len_groups'][0][int(row['animation_id'])], axis=1)
+        df['nr_commands'] = df.apply(
+            lambda row: meta_df[meta_df['id'] == row['filename']].reset_index()['len_groups'][0][
+                int(row['animation_id'])], axis=1)
 
     if train:
         return df, fitted_pca
@@ -106,6 +112,7 @@ def reduce_dim(data: pd.DataFrame, fitted_pca=None, new_dim=None, use_ppa=False,
         pd.DataFrame, object: Dimension-reduced path embeddings, fitted PCA model
 
     """
+
     # 1. PPA #1
     # PCA to get Top Components
 
@@ -184,15 +191,15 @@ if __name__ == '__main__':
     explained_variance = fitted_pca.explained_variance_ratio_
     print(f"Number of principal components = {len(explained_variance)}")
     print(f"Fitted pca: {fitted_pca}")
-    #plt.plot(np.cumsum(explained_variance))
-    #plt.xlabel('number of components')
-    #plt.ylabel('cumulative explained variance')
+    # plt.plot(np.cumsum(explained_variance))
+    # plt.xlabel('number of components')
+    # plt.ylabel('cumulative explained variance')
 
     # save PCA
     pickle.dump(fitted_pca, open("../../models/pca_path_embedding.sav", 'wb'))
     print(f"Fitted PCA saved.")
 
-    train_df.to_csv('../../data/path_animation_decision/model_1_train.csv', index=False)
+    train_df.to_csv('../../data/processed/model_path_animation_decision/model_1_train.csv', index=False)
     print('Train data created and saved.')
 
     test_df = create_path_vectors("../../data/raw/logos_dataset",
@@ -200,5 +207,5 @@ if __name__ == '__main__':
                                   fitted_pca=fitted_pca,
                                   nr_commands=False,  # "list index out of range"
                                   train=False)
-    test_df.to_csv('../../data/path_animation_decision/model_1_test.csv', index=False)
+    test_df.to_csv('../../data/model_path_animation_decision/model_1_test.csv', index=False)
     print('Test data created and saved.')

@@ -5,13 +5,14 @@ import pandas as pd
 
 
 def aggregate_path_animation_decisions_label(path_decision_labels_dataset=
-                                   "../../data/interim/logos_paths_animation_decision_label"
-                                   "/logos_dataset_paths_animation_decisions.csv",
-                                   matching_filenames_canva_dataset="../../data/interim/logos_paths_information"
-                                                                    "/matching_filenames_canva.csv",
-                                   matching_filenames_designer_dataset="../../data/interim"
-                                                                       "/logos_paths_information"
-                                                                       "/matching_filenames_designer.csv"):
+                                             "../../data/interim/logos_paths_animation_decision_label"
+                                             "/logos_dataset_paths_animation_decisions.csv",
+                                             matching_filenames_canva_dataset="../../data/interim"
+                                                                              "/logos_paths_information "
+                                                                              "/matching_filenames_canva.csv",
+                                             matching_filenames_designer_dataset="../../data/interim"
+                                                                                 "/logos_paths_information"
+                                                                                 "/matching_filenames_designer.csv"):
     """ Function to aggregate path decisions labels.
 
     Args:

@@ -103,12 +103,12 @@ class Logo:
                 pass
 
     @staticmethod
-    def _create_animation_entmoot(df):
+    def _create_animation_entmoot(df, optimizer_model="../../models/entmoot_optimizer_100_old_wo0123.pkl"):
         # Extract path vectors as list
         path_vectors = df[config.sm_features].values.tolist()
 
         # Load ENTMOOT optimizer to data
-        with open("models/entmoot_optimizer_100_old_wo0123.pkl", "rb") as f:
+        with open(optimizer_model, "rb") as f:
             optimizer = pickle5.load(f)
 
         # Load surrogate model for function evaluations
@@ -266,7 +266,7 @@ class Logo:
                parsed_doc.getElementsByTagName('polygon') + parsed_doc.getElementsByTagName('polyline') + \
                parsed_doc.getElementsByTagName('rect') + parsed_doc.getElementsByTagName('text')
 
-    def create_svg_embedding(self, embedding_model="models/deepSVG_hierarchical_ordered.pth.tar"):
+    def create_svg_embedding(self, embedding_model="../../models/deepSVG_hierarchical_ordered.pth.tar"):
         """ Create SVG embedding according to deepSVG.
 
         Args:
@@ -278,7 +278,7 @@ class Logo:
         """
         return Logo._create_embedding(self.parsed_doc.toxml(), embedding_model)
 
-    def create_path_embedding(self, embedding_model="models/deepSVG_hierarchical_ordered.pth.tar"):
+    def create_path_embedding(self, embedding_model="../../models/deepSVG_hierarchical_ordered.pth.tar"):
         """ Create path embedding accordint to deepSVG.
 
         Args:

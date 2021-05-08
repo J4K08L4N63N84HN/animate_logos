@@ -10,7 +10,7 @@ class SurrogateModelFNN(BenchmarkFunction):
     def __init__(self):
         # load best surrogate model (FNN)
         self.sm = OrdinalClassifierFNN(num_classes=5, layer_sizes=[38, 28])
-        self.sm.load_state_dict(torch.load("models/sm_fnn.pth"))
+        self.sm.load_state_dict(torch.load("../../models/sm_fnn.pth"))
         self.sm.eval()
 
         # define value restrictions for animation vector
@@ -47,5 +47,5 @@ class SurrogateModelFNN(BenchmarkFunction):
         """
         x = torch.tensor(x)
         logits = self.sm(x)
-        output = decode_classes(torch.sigmoid(logits).reshape(1,-1))[0][0]
+        output = decode_classes(torch.sigmoid(logits).reshape(1, -1))[0][0]
         return -output

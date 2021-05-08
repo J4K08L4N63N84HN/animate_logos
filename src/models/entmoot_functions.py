@@ -117,7 +117,7 @@ def entmoot_fit(dimensions, x0, y0, base_estimator="GBRT", std_estimator="BDD", 
             raise ValueError("`x0` and `y0` should have the same length")
         opt.tell(x0, y0)
 
-    print('-'*60)
+    print('-' * 60)
     print("Fitted a model to observed evaluations of the objective.")
 
     return opt
@@ -195,9 +195,11 @@ def entmoot_predict(opt, func, path_vector, n_calls):
 
     core_model.addGenConstrIndicator(an_vec_3, True, an_vec_6 + an_vec_7 + an_vec_8 + an_vec_9 == 0)
 
-    core_model.addGenConstrIndicator(an_vec_4, True, an_vec_6 + an_vec_7 + an_vec_8 + an_vec_9 + an_vec_10 + an_vec_11 == 0)
+    core_model.addGenConstrIndicator(an_vec_4, True,
+                                     an_vec_6 + an_vec_7 + an_vec_8 + an_vec_9 + an_vec_10 + an_vec_11 == 0)
 
-    core_model.addGenConstrIndicator(an_vec_5, True, an_vec_6 + an_vec_7 + an_vec_8 + an_vec_9 + an_vec_10 + an_vec_11 == 0)
+    core_model.addGenConstrIndicator(an_vec_5, True,
+                                     an_vec_6 + an_vec_7 + an_vec_8 + an_vec_9 + an_vec_10 + an_vec_11 == 0)
 
     # add constraints to keep path vector fixed
     core_model.addConstr(emb_0 == path_vector[0])
@@ -243,26 +245,27 @@ def entmoot_predict(opt, func, path_vector, n_calls):
         next_x = opt.ask()
         next_y = func(next_x)
 
-        #if itr == 1:
+        # if itr == 1:
         #    best_fun = min(next_y)
 
-        #itr += 1
+        # itr += 1
 
-        result = opt.tell(next_x, next_y, fit=_n_calls>0)
+        result = opt.tell(next_x, next_y, fit=_n_calls > 0)
 
-        #best_fun = result.fun
+        # best_fun = result.fun
         result.specs = specs
 
     x_iters = result['x_iters'][-n_calls:]
     func_vals = result['func_vals'][-n_calls:]
     min_i = np.argmin(func_vals)
-    #return next_x, next_y
+    # return next_x, next_y
 
     return x_iters[min_i], func_vals[min_i], result
 
 
 if __name__ == "__main__":
-    initial_data = pd.read_csv('../../data/processed/entmoot_optimization/bo_initial_data_09042021.csv')
+    initial_data = pd.read_csv(
+        '../../data/processed/model_animation_generation_optimization/bo_initial_data_09042021.csv')
 
     X_train = initial_data.iloc[:100, :-4]
     X_train.replace(to_replace=-1, value=0, inplace=True
@@ -277,37 +280,38 @@ if __name__ == "__main__":
     # Load surrogate model
     func = SurrogateModelFNN()
 
-    opt = entmoot_fit(dimensions=func.get_bounds(), x0=X_train, y0=y_train, base_estimator="RF", std_estimator="MPI", random_state=73)
+    opt = entmoot_fit(dimensions=func.get_bounds(), x0=X_train, y0=y_train, base_estimator="RF", std_estimator="MPI",
+                      random_state=73)
 
-#    with open("../../models/entmoot_optimizer_100_old.pkl", "rb") as f:
-#        opt = pickle.load(f)
+    #    with open("../../models/entmoot_optimizer_100_old.pkl", "rb") as f:
+    #        opt = pickle.load(f)
 
     path_vector = [-0.5301350924026049,
- -0.5169283152132866,
- -0.7181804353056276,
- -0.5852317288579015,
- -0.0439171920917359,
- -0.109643896491656,
- -0.9075397748406688,
- -0.8081042288431435,
- 0.6236006066727882,
- -0.2824519451971694,
- -1.4745267257932293,
- -0.3366244069648179,
- -0.8107911925048927,
- -0.8076373072108983,
- 0.4425432126236162,
- -1.1309958047879736,
- -0.964979971370144,
- -0.7333761386913004,
- 0.0111370522991624,
- -0.728046421028966,
- -0.8089747448340847,
- -0.3860035457854465,
- -1.0842525983849884,
- 0.3856467552605218,
- -0.9240113273333622,
- 1.0388136084635364]
+                   -0.5169283152132866,
+                   -0.7181804353056276,
+                   -0.5852317288579015,
+                   -0.0439171920917359,
+                   -0.109643896491656,
+                   -0.9075397748406688,
+                   -0.8081042288431435,
+                   0.6236006066727882,
+                   -0.2824519451971694,
+                   -1.4745267257932293,
+                   -0.3366244069648179,
+                   -0.8107911925048927,
+                   -0.8076373072108983,
+                   0.4425432126236162,
+                   -1.1309958047879736,
+                   -0.964979971370144,
+                   -0.7333761386913004,
+                   0.0111370522991624,
+                   -0.728046421028966,
+                   -0.8089747448340847,
+                   -0.3860035457854465,
+                   -1.0842525983849884,
+                   0.3856467552605218,
+                   -0.9240113273333622,
+                   1.0388136084635364]
 
     best_x, best_y, _ = entmoot_predict(opt, func, path_vector, n_calls=5)
     print(best_x)

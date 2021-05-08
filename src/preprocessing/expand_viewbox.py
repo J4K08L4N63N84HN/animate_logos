@@ -7,7 +7,7 @@ from pathlib import Path
 from svgpathtools import svg2paths
 
 
-def expand_viewbox_in_folder(old_folder, percent=50, new_folder="data/interim/expanded_svgs"):
+def expand_viewbox_in_folder(old_folder, percent=50, new_folder="../../data/interim/logos_preprocessed"):
     """ Expand the viewboxes of all SVGs in a given folder.
 
     Args:
@@ -21,7 +21,7 @@ def expand_viewbox_in_folder(old_folder, percent=50, new_folder="data/interim/ex
             expand_viewbox(old_folder + "/" + file, percent, new_folder)
 
 
-def expand_viewbox(svg_file, percent=50, new_folder="data/expanded_svgs"):
+def expand_viewbox(svg_file, percent=50, new_folder="../../data/interim/logos_preprocessed"):
     """ Expand the viewbox of a given SVG.
 
     Args:

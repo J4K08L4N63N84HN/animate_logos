@@ -10,7 +10,6 @@ from torch.utils.data import DataLoader
 import argparse
 import importlib
 
-
 # Reproducibility
 utils.set_seed(42)
 
@@ -44,7 +43,8 @@ def train(cfg: _Config, model_name, experiment_name="", log_dir="./logs", debug=
     current_time = datetime.now().strftime("%b%d_%H-%M-%S")
     experiment_identifier = f"{model_name}_{experiment_name}_{current_time}"
 
-    summary_writer = SummaryWriter(os.path.join(log_dir, "tensorboard", "debug" if debug else "full", experiment_identifier))
+    summary_writer = SummaryWriter(
+        os.path.join(log_dir, "tensorboard", "debug" if debug else "full", experiment_identifier))
     checkpoint_dir = os.path.join(log_dir, "models", model_name, experiment_name)
     visualization_dir = os.path.join(log_dir, "visualization", model_name, experiment_name)
 
@@ -58,15 +58,17 @@ def train(cfg: _Config, model_name, experiment_name="", log_dir="./logs", debug=
     loss_fns = [l.to(device) for l in cfg.make_losses()]
 
     if resume:
-        ckpt_exists = utils.load_ckpt_list(checkpoint_dir, model, None, optimizers, scheduler_lrs, scheduler_warmups, stats, train_vars)
+        ckpt_exists = utils.load_ckpt_list(checkpoint_dir, model, None, optimizers, scheduler_lrs, scheduler_warmups,
+                                           stats, train_vars)
 
     if resume and ckpt_exists:
-        print(f"Resuming model at epoch {stats.epoch+1}")
+        print(f"Resuming model at epoch {stats.epoch + 1}")
         stats.num_steps = cfg.num_epochs * len(dataloader)
     else:
         # Run a single forward pass on the single-device model for initialization of some modules
-        single_foward_dataloader = DataLoader(dataset, batch_size=cfg.batch_size // cfg.num_gpus, shuffle=True, drop_last=True,
-                                      num_workers=cfg.loader_num_workers, collate_fn=cfg.collate_fn)
+        single_foward_dataloader = DataLoader(dataset, batch_size=cfg.batch_size // cfg.num_gpus, shuffle=True,
+                                              drop_last=True,
+                                              num_workers=cfg.loader_num_workers, collate_fn=cfg.collate_fn)
         data = next(iter(single_foward_dataloader))
         model_args, params_dict = [data[arg].to(device) for arg in cfg.model_args], cfg.get_params(0, 0)
         model(*model_args, params=params_dict)
@@ -75,7 +77,7 @@ def train(cfg: _Config, model_name, experiment_name="", log_dir="./logs", debug=
 
     epoch_range = utils.infinite_range(stats.epoch) if cfg.num_epochs is None else range(stats.epoch, cfg.num_epochs)
     for epoch in epoch_range:
-        print(f"Epoch {epoch+1}")
+        print(f"Epoch {epoch + 1}")
 
         for n_iter, data in enumerate(dataloader):
             step = n_iter + epoch * len(dataloader)
@@ -88,7 +90,8 @@ def train(cfg: _Config, model_name, experiment_name="", log_dir="./logs", debug=
             labels = data["label"].to(device) if "label" in data else None
             params_dict, weights_dict = cfg.get_params(step, epoch), cfg.get_weights(step, epoch)
 
-            for i, (loss_fn, optimizer, scheduler_lr, scheduler_warmup, optimizer_start) in enumerate(zip(loss_fns, optimizers, scheduler_lrs, scheduler_warmups, cfg.optimizer_starts), 1):
+            for i, (loss_fn, optimizer, scheduler_lr, scheduler_warmup, optimizer_start) in enumerate(
+                    zip(loss_fns, optimizers, scheduler_lrs, scheduler_warmups, cfg.optimizer_starts), 1):
                 optimizer.zero_grad()
 
                 output = model(*model_args, params=params_dict)
@@ -132,9 +135,10 @@ def train(cfg: _Config, model_name, experiment_name="", log_dir="./logs", debug=
                 timer.reset()
 
             if not debug and step % cfg.ckpt_every == 0 and step > 0:
-                utils.save_ckpt_list(checkpoint_dir, model, cfg, optimizers, scheduler_lrs, scheduler_warmups, stats, train_vars)
-    
-    return model #SFS, 27.02.21
+                utils.save_ckpt_list(checkpoint_dir, model, cfg, optimizers, scheduler_lrs, scheduler_warmups, stats,
+                                     train_vars)
+
+    return model  # SFS, 27.02.21
 
 
 if __name__ == "__main__":

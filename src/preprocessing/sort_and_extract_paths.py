@@ -8,16 +8,18 @@ from matplotlib import image
 from datetime import datetime
 from shutil import copyfile
 from skimage.metrics import mean_squared_error
-from src.utils import logger
+from src.models import logger
 from src.data.svg_to_png import convert_svgs_in_folder
 
 
 class Selector:
     """ Selector class for path relevance ordering. """
 
-    def __init__(self, dir_svgs='./data/svgs', dir_path_selection='./data/path_selection',
-                 dir_truncated_svgs='./data/truncated_svgs', dir_selected_paths='./data/selected_paths',
-                 dir_decomposed_svgs='./data/decomposed_svgs'):
+    def __init__(self, dir_svgs='../../data/interim/logos_preprocessed',
+                 dir_path_selection='../../data/interim/logos_paths',
+                 dir_truncated_svgs='../../data/interim/logos_truncated',
+                 dir_selected_paths='../../data/interim/logos_paths_selected',
+                 dir_decomposed_svgs='../../data/interim/logos_decomposed'):
         """
         Args:
             dir_svgs (str): Directory containing SVGs to be sorted.
@@ -217,10 +219,11 @@ class Selector:
         logger.info(f'Time: {datetime.now() - start}')
 
 
-def get_path_relevance(logo, pkl_file='data/meta_data/path_relevance_order.pkl'):
+def get_path_relevance(logo, pkl_file='../../data/meta_data/path_relevance_order.pkl'):
     """ Get path relevance ordering from saved pickle file.
 
     Args:
+        pkl_file:
         logo (str): Name of logo for which to obtain path ordering.
 
     Returns:

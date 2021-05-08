@@ -6,7 +6,7 @@ from pathlib import Path
 from xml.dom import minidom
 
 
-def insert_ids_in_folder(old_folder, new_folder="data/svgs_with_ID"):
+def insert_ids_in_folder(old_folder, new_folder="../../data/interim/logos_preprocessed"):
     """ Add the attribute "animation_id" to all SVGs in a given folder.
 
     Args:
