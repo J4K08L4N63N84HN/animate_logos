@@ -6,7 +6,17 @@ from src.models import config
 
 
 class AnimationPredictor(nn.Module):
+    """ Animation prediction model to be trained using genetic algorithm. """
+
     def __init__(self, input_size=config.a_input_size, hidden_sizes=config.a_hidden_sizes, out_sizes=config.a_out_sizes):
+        """
+        Args:
+            input_size (int): Number of neurons in input layer (input dimension).
+            hidden_sizes (list): Number of neurons in each hidden layer. Must be of length=2.
+            out_sizes (list): Number of neurons in each output layer. Must be of length=2.
+
+        """
+
         super().__init__()
 
         self.input_size = input_size
@@ -22,8 +32,16 @@ class AnimationPredictor(nn.Module):
         self.out_2 = nn.Linear(self.hidden_sizes[1], self.out_sizes[1])
 
     # Forward Pass
-    # X has to be single 2-dim tensor of size nr_paths x embedding_size
     def forward(self, X):
+        """ Forward pass to generate animations.
+
+        Args:
+            X (np.ndarray): Path vectors for which animations are to be generated.
+
+        Returns:
+            torch.Tensor: Generated animation vectors.
+
+        """
         # forward pass of model two: predict type of animation (choice out of 6)
         h_1 = torch.relu(self.hidden_1(X))
         y_1 = nn.functional.softmax(self.out_1(h_1), dim=1)
@@ -35,12 +53,3 @@ class AnimationPredictor(nn.Module):
         h_2 = torch.relu(self.hidden_2(torch.cat((X, y_1), 1)))
         y_2 = torch.sigmoid(self.out_2(h_2))
         return torch.cat((y_1, y_2), 1)
-
-
-if __name__ == "__main__":
-    start_time = time.time()
-    for _ in range(116):
-        input = torch.randn(4, 256)
-        m = AnimationPredictor()
-        m(input)
-    print("--- %s seconds ---" % (time.time() - start_time))
